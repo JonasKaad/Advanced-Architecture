@@ -1,3 +1,15 @@
+# Group 14
+
+Students:
+- Victor Boye (`viboy20`)
+- Sebastian Mondrup (`semon20`)
+- Patrick Andreasen (`pandr20`)
+- Rasmus Jacobsen (`rasmj20`)
+- Jonas Solhaug Kaad (`jokaa17`)
+- Alexander Nørup (`alnoe20`)
+
+There's also stuff on Google Drive: https://drive.google.com/drive/folders/1Vsah8Pq91fAwSbnSnJ9waP6vDKHUaSdo?usp=sharing
+
 # Advanced Software Architecture Portfolio Template
 
 - [Introduction](#introduction)
