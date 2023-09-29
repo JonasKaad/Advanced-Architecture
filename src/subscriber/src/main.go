@@ -2,13 +2,10 @@ package main
 
 import (
 	"fmt"
+	"os"
 
 	mqtt "github.com/eclipse/paho.mqtt.golang"
 )
-
-var messagePubHandler mqtt.MessageHandler = func(client mqtt.Client, msg mqtt.Message) {
-    fmt.Printf("Received message: %s from topic: %s\n", msg.Payload(), msg.Topic())
-}
 
 var connectHandler mqtt.OnConnectHandler = func(client mqtt.Client) {
     fmt.Println("Connected")
@@ -23,19 +20,29 @@ func main() {
     var port = 1883
     opts := mqtt.NewClientOptions()
     opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
-    opts.SetDefaultPublishHandler(messagePubHandler)
     opts.OnConnect = connectHandler
     opts.OnConnectionLost = connectLostHandler
+    
+    receiveCount := 0
+	choke := make(chan [2]string)
+
+    opts.SetDefaultPublishHandler(func(client mqtt.Client, msg mqtt.Message) {
+			choke <- [2]string{msg.Topic(), string(msg.Payload())}
+	})
+
     client := mqtt.NewClient(opts)
     if token := client.Connect(); token.Wait() && token.Error() != nil {
         panic(token.Error())
-  }
-    sub(client)
-}
+    }
 
-func sub(client mqtt.Client) {
-    topic := "topic/lecture05"
-    token := client.Subscribe(topic, 1, nil)
-    token.Wait()
-  	fmt.Printf("Subscribed to topic: %s", topic)
+    if token := client.Subscribe("topic/lecture05", byte(0), nil); token.Wait() && token.Error() != nil {
+        fmt.Println(token.Error())
+        os.Exit(1)
+    }
+
+    for receiveCount < 5 {
+        incoming := <-choke
+        fmt.Printf("RECEIVED TOPIC: %s MESSAGE: %s\n", incoming[0], incoming[1])
+        receiveCount++
+    }
 }
