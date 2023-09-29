@@ -8,7 +8,7 @@ from paho.mqtt import client as mqtt_client
 
 broker = "mosquitto"
 port = 1883
-topic = "/lecture05"
+topic = "topic/lecture05"
 # Generate a Client ID with the publish prefix.
 client_id = f"publish-{random.randint(0, 1000)}"
 # username = 'emqx'
