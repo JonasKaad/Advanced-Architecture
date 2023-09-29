@@ -15,3 +15,10 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mosquitto
+
+  subscriber:
+    build:
+      context: ./subscriber
+      dockerfile: Dockerfile
+    depends_on:
+      - mosquitto
