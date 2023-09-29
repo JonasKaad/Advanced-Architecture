@@ -10,11 +10,13 @@
     }
   },
   "triggerTaskOnSave.tasks": {
-    "Run Docker Compose for LaTeX GroupReport": [
-      "report/GroupTemplate/*.tex",
-    ],
+    "Run Docker Compose for LaTeX GroupReport": ["report/GroupTemplate/*.tex"],
     "Run Docker Compose for LaTeX Reflections": [
-      "report/ReflectionsTemplate/*.tex",
-    ],
+      "report/ReflectionsTemplate/*.tex"
+    ]
   },
+  "[python]": {
+    "editor.defaultFormatter": "ms-python.black-formatter"
+  },
+  "python.formatting.provider": "none"
 }
