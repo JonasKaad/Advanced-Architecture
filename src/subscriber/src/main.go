@@ -23,7 +23,6 @@ func main() {
     var port = 1883
     opts := mqtt.NewClientOptions()
     opts.AddBroker(fmt.Sprintf("tcp://%s:%d", broker, port))
-    opts.SetClientID("go_mqtt_client")
     opts.SetDefaultPublishHandler(messagePubHandler)
     opts.OnConnect = connectHandler
     opts.OnConnectionLost = connectLostHandler
@@ -31,6 +30,7 @@ func main() {
     if token := client.Connect(); token.Wait() && token.Error() != nil {
         panic(token.Error())
   }
+    sub(client)
 }
 
 func sub(client mqtt.Client) {
