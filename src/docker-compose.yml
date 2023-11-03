@@ -15,10 +15,17 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mosquitto
+      - experiment-subscriber
 
-  subscriber:
+  experiment-subscriber:
     build:
-      context: ./subscriber
+      context: ./echoing-publisher
       dockerfile: Dockerfile
     depends_on:
       - mosquitto
+  # subscriber:
+  #   build:
+  #     context: ./subscriber
+  #     dockerfile: Dockerfile
+  #   depends_on:
+  #     - mosquitto
