@@ -27,7 +27,7 @@ def connect_mqtt():
 
 
 def on_message(client, userdata, message):
-    print("Got message: %s %s" % (message.topic, message.payload), flush=True)
+    # print("Got message: %s %s" % (message.topic, message.payload), flush=True)
     client.publish(message.topic + "-reply", message.payload)
 
 def run():

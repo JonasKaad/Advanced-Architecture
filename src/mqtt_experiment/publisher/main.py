@@ -18,6 +18,13 @@ msg_count = 1
 msgs_to_send = 1000
 timings = []
 
+payload = "lol"
+
+with open("1mb.txt") as f:
+    payload = f.read()
+
+print("Loaded payload with " + str(len(payload)) + " chars", flush=True)
+
 def connect_mqtt():
     def on_connect(client, userdata, flags, rc):
         if rc == 0:
@@ -37,6 +44,7 @@ def send_one_message(client):
     global msgs_to_send
     global start_time
     global timings
+    global payload
     if(msg_count > msgs_to_send):
         client.loop_stop()
         print("Stopping test", flush=True)
@@ -46,13 +54,13 @@ def send_one_message(client):
         print("Average timing: " + str(sum/len(timings)) + ", N=" + str(len(timings)), flush=True)
         return
     print("Sending one message", flush=True)
-    msg = f"messages: {msg_count}"
+    msg = str(msg_count) + payload
     start_time = time.perf_counter()
     result = client.publish(topic, msg)
     # result: [0, 1]
     status = result[0]
     if status == 0:
-        print(f"Sent `{msg}` to topic `{topic}`", flush=True)
+        print(f"Sent `{msg[0:10]}...` ({len(msg)} chars) to topic `{topic}`", flush=True)
     else:
         print(f"Failed to send message to topic {topic}", flush=True)
     msg_count += 1
@@ -66,7 +74,7 @@ def on_message(client, userdata, message):
     end_time = time.perf_counter()
     elapsed_time = end_time - start_time
     timings.append(elapsed_time)
-    print("Round-trip time for `"+ str(message.payload) +"`: ", elapsed_time, flush=True)
+    print("Round-trip time for `"+ str(message.payload)[0:10] +"...`: ", elapsed_time, flush=True)
     time.sleep(0.1)
     send_one_message(client)
 
