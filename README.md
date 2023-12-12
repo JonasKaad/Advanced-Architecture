@@ -12,9 +12,11 @@ Students:
 ## Advanced Topics in Software Architecture project
 
 The two experiments for the project can be found on the `src` folder. They can be found in their respective folders:
-
-- mqtt_experiment
-- kafka_experiment
+```
+src
+  ├── kafka_experiment
+  └── mqtt_experiment
+```
 
 ### MQTT Experiment
 
